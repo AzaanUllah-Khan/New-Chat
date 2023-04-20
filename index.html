@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whatsapp Remake</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("https://images.unsplash.com/photo-1546970936-bb69d725045b");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .chat-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 20px;
+            background-color: #00BFFF;
+            color: white;
+            text-align: center;
+        }
+
+        .chat-area {
+            padding: 10px;
+            height: 400px;
+            overflow-y: scroll;
+        }
+
+        .input-area {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-top: 1px solid #ccc;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        #send-button:hover {
+            background-color: #0080FF;
+        }
+
+        .message {
+            margin: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message span {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .message p {
+            font-size: 16px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .me {
+            text-align: right;
+        }
+
+        .me .message {
+            background-color: #DCF8C6;
+        }
+
+        .me .message span {
+            color: #999;
+        }
+
+        .me .message p {
+            color: #333;
+        }
+
+        .bot {
+            text-align: left;
+        }
+
+        .bot .message {
+            background-color: #E2E2E2;
+        }
+
+        .bot .message span {
+            color: #999;
+        }
+
+        .bot .message p {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <h1>Chat</h1>
+        </div>
+        <div class="chat-area">
+            <ul id="message-list"></ul>
+        </div>
+        <div class="input-area">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <script>
+        const messageList = document.getElementById('message-list');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+
+        // function to add a message to the chat area
+        function addMessage(sender, message) {
+            const messageItem = document.createElement('li');
+            messageItem.classList.add('message', sender);
+            const senderSpan = document.createElement('span');
+            senderSpan.textContent = sender;
+            const messagePara = document.createElement('p');
+            messagePara.textContent = message;
+            messageItem.appendChild(senderSpan);
+            messageItem.appendChild(messagePara);
+            messageList.appendChild(messageItem);
+        }
+
+        // function to generate a random bot response
+        function generateBotResponse(userMessage) {
+            const greetings = ['Hello there!', 'Hi!', 'Hey!', 'Greetings!'];
+            const questions = ['How are you?', 'What can I do for you?', 'What brings you here?', 'How may I assist you?'];
+            const compliments = ['You look great today!', 'Nice outfit!', 'I like your style!', 'You have a great personality!'];
+            const responses = [...greetings, ...questions, ...compliments];
+            const botResponse = responses[Math.floor(Math.random() * responses.length)];
+            return botResponse;
+        }
+
+        // function to handle sending a message
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                addMessage('me', message);
+                messageInput.value = '';
+                // simulate bot response after a short delay
+                setTimeout(() => {
+                    const botMessage = generateBotResponse(message);
+                    addMessage('Friend', botMessage);
+                }, 1000);
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
